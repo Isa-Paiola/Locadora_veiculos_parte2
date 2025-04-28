@@ -13,3 +13,18 @@ O sistema de locadora de veículos é uma aplicação web que permite:
 Os dados são armazenados em dois arquivos JSON:
 - `usuarios.json`: username, senha criptograda e perfil;
 - `veiculos.json`: tipo, modelo, placa e status de disponibilidade;
+
+## 2. Estrutura do sistema
+O sistema utiliza: 
+- **PHP**: para lógica;
+- **Bootstrap**: para a estilização;
+- **Bootstrap Icons**: para os ícones da interface;
+- **Composer**: Para autoloading de classes;
+- **JSON**: para persistência de dados.
+
+### 2.1 Componentes principais
+- **Interfaces**: Define a interface`Locavel` para veículos e utiliza os métodos `alugar()`, `devolver()` e `isDisponivel()`;
+- **Models**: classes `Veiculo` (abstrata), `Carro` para os veículos, com álculo de aluguel baseado em diárias constantes (`DIARIA_CARRO` e `DIARIAM_MOTO`);
+- **Services**: Classes `AUTH` (autenticação e gereniamento de usuáriois) e `Locadora` (gerenciamento dos veículos);
+- **Views**: Template principal `template.php` para renderizar a interface e `login.php` para a autenticação;
+- **Controllers**: Lógica em `index.php` para processar requisições e carregar o template.
