@@ -87,10 +87,10 @@ class Locadora {
         // percorre a lista de veículos
         foreach($this->veiculos as $veiculo){
 
-            if($veiculo->getModelo() === $modelo && $veiculos->isDisponivel()){
+            if($veiculo->getModelo() === $modelo && $veiculo->isDisponivel()){
 
                 // calcular valor do aluguel
-                $valorAluguel = $veiculo->calcularAluguel($dias);
+                $valorAluguel = $veiculo->calcularAluguel();
 
                 // marcar como alugado
                 $mensagem = $veiculo->alugar();
@@ -131,4 +131,11 @@ class Locadora {
     }
 
     // Calcular previsão do valor
+    public function calcularPrevisaoAluguel(string $tipo, int $dias): float {
+
+        if($tipo ==='Carro'){
+            return(new Carro('','')) ->calcularAluguel($dias);
+        }
+        return (new Moto('','')) ->calcularAluguel($dias);
+    }
 }
