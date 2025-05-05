@@ -234,8 +234,7 @@ $usuario = Auth::getUsuario();
                                     <td>
                                         <span class="badge bg-<?=$veiculo->isDisponivel() ? 
                                         'success' : 'warning' ?>">
-                                            <?= $veiculo->isDisponivel() ? 'Disponivel' : 'Alugado' ? 
-                                            >
+                                            <?= $veiculo->isDisponivel() ? 'Disponivel' : 'Alugado' ? >
                                         </span>
                                     </td>
                                     <php if (Auth::isAdmin()): ?>
