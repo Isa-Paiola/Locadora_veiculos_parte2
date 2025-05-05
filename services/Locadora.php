@@ -61,6 +61,25 @@ class Locadora {
     }
 
     // Remover veículo
+    public function deletarVeiculo(string $modelo, string $placa): string{
+
+        foreach($this->veiculos as $key => $veiculo){
+
+            // verifica se modelo correspondem
+            if($veiculo->getModelo() === $modelo && $veiculo->getPlaca() === $placa){
+                // remove o veículo do array
+                unset($this->veiculos[$key]);
+
+                // reorganizar os indices
+                $this->veiculos = array_values($this->veiculos);
+
+                // salvar o novo estado 
+                $this->salvarVeiculos();
+                return "Veículo '{$modelo}' removido com sucesso!";
+            }
+        }
+        return "Veículo não encontrado!";
+    }
 
     // Alugar Veículo
 
