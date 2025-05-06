@@ -167,8 +167,8 @@ $usuario = Auth::getUsuario();
             </div>
             <?php endif; ?>
 
-            <!-- Formulário para calculo de aluguel -->
-            <div class="col-<?= Auth::isAdmin() ? 'md-6':'12' ?>">
+            <!-- Formul.ário para calculo de aluguel -->
+            <div class="col-<?=Auth::isAdmin()? 'md-6':'12'?>">
                 <div class="card h-100">
                     <div class="card-header">
                         <h4 class="mb-0">
@@ -200,142 +200,76 @@ $usuario = Auth::getUsuario();
             </div>
         </div>
 
-<!-- tabela de veículos cadastrados -->
-<div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        Veículos Cadastrados
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Tipo</th>
-                                    <th>Modelo</th>
-                                    <th>Placa</th>
-                                    <th>Status</th>
-                                    <?php if(Auth::isAdmin()): ?>
-                                    <th>Ações</th>
-                                    <?php endif; ?>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($locadora->listarVeiculos() as $veiculo): ?>
-                                <tr>
-                                    <td>
-                                        <?= $veiculo instanceof \Models\Carro ? 'Carro' : 'Moto' ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($veiculo->getModelo()) ?></td>
-                                    <td><?= htmlspecialchars($veiculo->getPlaca()) ?></td>
-                                    <td>
-                                        <span class="badge bg-<?=$veiculo->isDisponivel() ? 
-                                        'success' : 'warning' ?>">
-                                            <?= $veiculo->isDisponivel() ? 'Disponivel' : 'Alugado' ? >
-                                        </span>
-                                    </td>
-                                    <php if (Auth::isAdmin()): ?>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-                                                <input type="hidden" name="modelo" value="<?=htmlspecialchars($veiculo->getModelo()) ?>">
+        <!-- Tabela de Veículos cadastrados -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            Veículos Cadastrados📄
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Modelo</th>
+                                        <th>Placa</th>
+                                        <th>Status</th>
+                                        <?php if(Auth::isAdmin()): ?>
+                                        <th>Ações</th>
+                                        <?php endif; ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($locadora->listarVeiculos() as $veiculo): ?>
+                                    <tr>
+                                        <td><?= $veiculo instanceof \Models\Carro ? 'Carro' : 'Moto' ?></td>
+                                        <td><?=htmlspecialchars($veiculo->getModelo())?></td>
+                                        <td><?=htmlspecialchars($veiculo->getPlaca())?></td>
+                                        <td>
+                                            <span class="badge bg-<?= $veiculo->isDisponivel()? 'success' : 'warning' ?>">
+                                                <?= $veiculo->isDisponivel() ? 'Disponivel' : 'Alugado' ?>
+                                            </span>
+                                        </td>
+                                        <?php if (Auth::isAdmin()):?>
+                                        <td>
+                                            <div class="action-wrapper">
+                                                <form action="post" class="btn-group-actions">
+                                                    <input type="hidden" name="modelo" value="<?=htmlspecialchars($veiculo->getModelo())?>">
+                                                    <input type="hidden" name="placa" value="<?=htmlspecialchars($veiculo->getPlaca())?>">
 
-                                                <input type="hidden" name="placa" value="<?=htmlspecialchars($veiculo->getModelo()) ?>">
+                                                    <!-- Botão Deletar (sempre disponível para o adm) -->
+                                                    <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
 
-                                            <!-- Botão Deletar (sempre disponível para o adm) -->
-                                             <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
+                                                    <!-- Botões Condicionais -->
+                                                    <div class="rent-group">
+                                                        <?php if (!$veiculo->isDisponivel()): ?>
 
-                                             <!-- Botões Condicionais -->
-                                              <div class="rent-group">
+                                                        <!-- Veículo Alugado -->
+                                                        <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
+                                                        <?php else: ?>
 
-                                              <!-- Veículo Alugado -->
-                                               <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
-                                               <!-- Veículo Disponível -->
-                                                <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                              </div>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <?php endif; ?>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Moto</td>
-                                    <td>Hornet</td>
-                                    <td>AGO8T14</td>
-                                    <td>
-                                        <span class="badge bg-warning">
-                                            Alugado
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-
-                                            <!-- Botão Deletar (sempre disponível para o adm) -->
-                                             <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
-
-                                             <!-- Botões Condicionais -->
-                                              <div class="rent-group">
-
-                                              <!-- Veículo Alugado -->
-                                               <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
-                                                <!-- Veículo Disponível -->
-                                               <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                              </div>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>Caminhão</td>
-                                    <td>Truck</td>
-                                    <td>ERP2S21</td>
-                                    <td>
-                                        <span class="badge bg-success">
-                                            Disponível
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-wrapper">
-                                            <form action="post" class="btn-group-actions">
-
-                                            <!-- Botão Deletar (sempre disponível para o adm) -->
-                                             <button class="btn btn-danger btn-sm delete-btn" type="submit" name="deletar">Deletar</button>
-
-                                             <!-- Botões Condicionais -->
-                                              <div class="rent-group">
-
-                                              <!-- Veículo Alugado -->
-                                               <button class="btn btn-warning btn-sm" type="submit" name="devolver">Devolver</button>
-
-                                               <!-- Veículo Disponível -->
-                                                <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
-                                                <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
-                                              </div>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                        <!-- Veículo Disponível -->
+                                                            <input type="number" name="dias" class="form-control days-input" value="1" min="1" required>
+                                                            <button class="btn btn-primary" name="alugar" type="submit">Alugar</button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <?php endif; ?>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-     </div>
-
     </div>
-  
 </body>
 </html>
